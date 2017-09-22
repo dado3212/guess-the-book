@@ -5,6 +5,8 @@ var total = 0;
 
 var chosen = false;
 
+var toDelete;
+
 var names = {
   1: "Harry Potter and the Sorcerer's Stone",
   2: "Harry Potter and the Chamber of Secrets",
@@ -39,80 +41,167 @@ function resizeBook() {
   document.querySelector('#display-book').style.width = newWidth;
   document.querySelector('#display-book').style.height = newHeight;
   document.querySelector('#display-book').style.fontSize = newWidth * .02;
+
+  if ($('#flippable')) {
+    $('#flippable').turn("size", newWidth * .9, newHeight * .93);
+  }
+}
+
+function choicePage() {
+  return $("<div class='page left book-page'>" +
+  "  <div class='author'>" +
+  "    J.K. Rowling" +
+  "  </div>" +
+  "  <ul class='books'>" +
+  "    <li data-book=1>" +
+  "      <img src='./assets/imgs/book_1.jpg'>" +
+  "      <span>Harry Potter and the Sorceror's Stone</span>" +
+  "    </li>" +
+  "    <li data-book=2>" +
+  "      <img src='./assets/imgs/book_2.jpg'>" +
+  "      <span>Harry Potter and the Chamber of Secrets</span>" +
+  "    </li>" +
+  "    <li data-book=3>" +
+  "      <img src='./assets/imgs/book_3.jpg'>" +
+  "      <span>Harry Potter and the Prisoner of Azkaban</span>" +
+  "    </li>" +
+  "    <li data-book=4>" +
+  "      <img src='./assets/imgs/book_4.jpg'>" +
+  "      <span>Harry Potter and the Goblet of Fire</span>" +
+  "    </li>" +
+  "    <li data-book=5>" +
+  "      <img src='./assets/imgs/book_5.jpg'>" +
+  "      <span>Harry Potter and the Order of the Phoenix</span>" +
+  "    </li>" +
+  "    <li data-book=6>" +
+  "      <img src='./assets/imgs/book_6.jpg'>" +
+  "      <span>Harry Potter and the Half Blood Prince</span>" +
+  "    </li>" +
+  "    <li data-book=7>" +
+  "      <img src='./assets/imgs/book_7.jpg'>" +
+  "      <span>Harry Potter and the Deathly Hallows</span>" +
+  "    </li>" +
+  "  </ul>" +
+  "</div>");
+}
+
+function quotePage() {
+  return $('<div class="page right quote-page">' +
+    '<div class="book-name">' +
+    '</div>' +
+    '<div class="quote">' +
+    '</div>' +
+    '<div class="wrapper">' +
+    '  <div class="correct">' +
+    '    <h3>Correct</h3>' +
+    '    <div>0</div>' +
+    '  </div>' +
+    '  <button class="button" onclick="getNew()">New Quote</button>' +
+    '  <div class="total">' +
+    '    <h3>Total</h3>' +
+    '    <div>0</div>' +
+    '  </div>' +
+    '</div>' +
+  '</div>');
 }
 
 // Gets a new quote
-function getNew(inc = false) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', './sample.php', true);
-  xhr.responseType = 'json';
-  xhr.onload = function() {
-    var status = xhr.status;
-    if (status == 200) {
-      const result = xhr.response;
+function getNew(firstRun = false) {
+  $.getJSON('./sample.php', function(result) {
+    book = parseInt(result.book.substr(5));
 
-      book = parseInt(result.book.substr(5));
-
-      document.querySelector('#quote').classList.remove('visible');
-      document.querySelector('#book-name').classList.remove('visible');
-
-      document.querySelector('#quote').innerHTML = 
-        '<span class="context">"...' + result.context.before + '</span><span class="main">' + result.sentence + '</span><span class="context">' + result.context.after + '..."</span>';
-
-      const books = document.querySelectorAll('#books li');
-      for (var i = 0; i < books.length; i++) {
-        books[i].classList.remove('correct');
-        books[i].classList.remove('incorrect');
-      }
-      document.querySelector('#book-name').innerHTML = names[book];
-
-      if (inc && !chosen) {
-        total += 1;
-        document.querySelector('.wrapper .total div').innerHTML = total;
-      }
-      chosen = false;
-    } else {
-      console.log('EEK');
+    if ($('#flippable').turn('pages') > 5) {
+      $("#flippable")
+        .turn('removePage', 5)
+        .turn('removePage', 4);
     }
-  };
-  xhr.send();
+
+    if (!firstRun) {
+      // Copy the page
+      $("#flippable")
+        .turn("addPage", choicePage())
+        .turn("addPage", quotePage())
+        .turn('next');
+
+      initializeBookListeners();
+
+      setTimeout(function() {
+        if ($('#flippable').turn('pages') > 5) {
+          $("#flippable")
+            .turn('removePage', 5)
+            .turn('removePage', 4);
+        }
+      }, 1000);
+    }
+
+    $('.quote').last().removeClass('visible');
+    $('.book-name').last().removeClass('visible');
+
+    $('.quote').last().html(
+      '<span class="context">"...' + result.context.before + '</span>' + 
+      '<span class="main">' + result.sentence + '</span>' + 
+      '<span class="context">' + result.context.after + '..."</span>'
+    );
+
+    $('.book-name').last().html(names[book]);
+
+    if (!firstRun && !chosen) {
+      total += 1;
+      $('.wrapper .correct div').last().html(correct);
+      $('.wrapper .total div').last().html(total);
+    }
+    chosen = false;
+  });
 }
 
-document.addEventListener('DOMContentLoaded', function() { 
-  getNew();
+function initializeBookListeners() {
+  $('.books li').off('click', '**').on('click', function(e) {
+    if (!chosen) {
+      // Remove 'selected' class from all books
+      $('.books li').removeClass('selected');
 
-  resizeBook();
+      // Make the book name visible
+      $('.book-name').addClass('visible');
 
-  const books = document.querySelectorAll('#books li');
-  for (var i = 0; i < books.length; i++) {
-    books[i].addEventListener('click', function(e) {
-      if (!chosen) {
-        // Remove 'selected' class from all books
-        const allBooks = document.querySelectorAll('#books li');
-        for (var j = 0; j < allBooks.length; j++) {
-          allBooks[j].classList.remove('selected');
-        }
+      // Make the context visible
+      $('.quote').addClass('visible');
 
-        // Make the book name visible
-        document.querySelector('#book-name').classList.add('visible');
+      const book_chosen = this.getAttribute('data-book');
 
-        // Make the context visible
-        document.querySelector('#quote').classList.add('visible');
-
-        const book_chosen = this.getAttribute('data-book');
-
-        if (book_chosen == book) {
-          this.classList.add('correct');
-          correct += 1;
-        } else {
-          document.querySelector('#books li[data-book="' + book + '"]').classList.add('incorrect');
-        }
-        total += 1;
-
-        document.querySelector('.wrapper .correct div').innerHTML = correct;
-        document.querySelector('.wrapper .total div').innerHTML = total;
+      if (book_chosen == book) {
+        $(this).addClass('correct');
+        correct += 1;
+      } else {
+        $('.books li[data-book="' + book + '"]').addClass('incorrect');
       }
-      chosen = true;
-    });
-  }
+      total += 1;
+
+      $('.wrapper .correct div').html(correct);
+      $('.wrapper .total div').html(total);
+    }
+    chosen = true;
+  });
+}
+
+$(document).ready(function() {
+  $('#flippable').turn({
+    page: 2,
+    width: '90%',
+    height: '93%',
+  }); //.turn("disable", true);
+
+  $('#begin').on('click', function() {
+    $("#flippable")
+      .turn("addPage", choicePage())
+      .turn("addPage", quotePage())
+      .turn('next');
+
+    getNew(true);
+
+    initializeBookListeners();
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() { 
+  resizeBook();
 }, false);

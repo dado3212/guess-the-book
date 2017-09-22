@@ -13,7 +13,7 @@
   // Split the full text into each sentences
   $sentences = preg_split("/(?<!Mrs)(?<!Mr)\. /", $f, null, PREG_SPLIT_OFFSET_CAPTURE); // split on periods, get offset
   $sentences = array_filter($sentences, function($sentence) {
-    $long_enough = strlen($sentence[0]) > 40; // min character length
+    $long_enough = strlen($sentence[0]) > 45; // min character length
     $chapter = preg_match("/^[A-Z\s\d]{10,}/", $sentence[0]); // Filters out chapters
     $onlyAllowedCharacters = preg_match("/^[a-zA-Z0-9.,'\"\s]+$/", $sentence[0]); // Filters out garbage
     return ($long_enough && !$chapter && $onlyAllowedCharacters);

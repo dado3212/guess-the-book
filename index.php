@@ -59,11 +59,6 @@
     <link rel="stylesheet" type="text/css" href="assets/main.css">
   </head>
   <body>
-    <h1>Harry Potter</h1>
-    <h2>Guess The Book</h2>
-    <p>
-      It's pretty straight forward! This will automatically generate a quote from one of the seven Harry Potter novels. You have to guess which one it comes from.
-    </p>
     <div id="display-book">
       <!--
         Source: https://dougitdesign.deviantart.com/art/open-book-template-PSD-198829525
@@ -71,59 +66,23 @@
       <div class="background">
         <img src="./assets/imgs/book.png" alt="book">
       </div>
-      <div class="page left">
-        <div class="author">
-          J.K. Rowling
+      <div id="flippable">
+        <div class="page right">
+          What are you doing?
         </div>
-        <ul id="books">
-          <li data-book=1>
-            <img src='./assets/imgs/book_1.jpg'>
-            <span>Harry Potter and the Sorceror's Stone</span>
-          </li>
-          <li data-book=2>
-            <img src='./assets/imgs/book_2.jpg'>
-            <span>Harry Potter and the Chamber of Secrets</span>
-          </li>
-          <li data-book=3>
-            <img src='./assets/imgs/book_3.jpg'>
-            <span>Harry Potter and the Prisoner of Azkaban</span>
-          </li>
-          <li data-book=4>
-            <img src='./assets/imgs/book_4.jpg'>
-            <span>Harry Potter and the Goblet of Fire</span>
-          </li>
-          <li data-book=5>
-            <img src='./assets/imgs/book_5.jpg'>
-            <span>Harry Potter and the Order of the Phoenix</span>
-          </li>
-          <li data-book=6>
-            <img src='./assets/imgs/book_6.jpg'>
-            <span>Harry Potter and the Half Blood Prince</span>
-          </li>
-          <li data-book=7>
-            <img src='./assets/imgs/book_7.jpg'>
-            <span>Harry Potter and the Deathly Hallows</span>
-          </li>
-        </ul>
-      </div>
-      <div class="page right">
-        <div id="book-name">
-        </div>
-        <div id="quote">
-        </div>
-        <div class="wrapper">
-          <div class="correct">
-            <h3>Correct</h3>
-            <div>0</div>
-          </div>
-          <button class="button" onclick="getNew(true)">Generate Another</button>
-          <div class="total">
-            <h3>Total</h3>
-            <div>0</div>
-          </div>
+        <div class="page left"></div>
+        <div class="page right intro-page">
+          <h1>Harry Potter</h1>
+          <h2>Guess The Book</h2>
+          <p>
+            It's pretty straight forward! This will automatically generate a quote from one of the seven Harry Potter novels. You have to guess which one it comes from.
+          </p>
+          <button class="button" id="begin">Get Started</button>
         </div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/js/turn.min.js"></script>
     <script src="assets/js/main.js"></script>
   </body>
 </html>

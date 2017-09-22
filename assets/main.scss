@@ -27,9 +27,7 @@ h2 {
 }
 
 p {
-  max-width: 1080px;
   width: 80%;
-  min-width: 300px;
   padding: 0px 20px;
   text-align: center;
   margin: 20px auto;
@@ -58,22 +56,41 @@ p {
     }
   }
 
+  #flippable {
+    position: absolute !important;
+    top: 2%;
+    left: 5%;
+  }
+
   .page {
     width: 45%;
     height: 89%;
     position: absolute;
     top: 3%;
 
+    &.intro-page {
+      button {
+        margin: 0 auto;
+      }
+    }
+
     &.left {
+      background: url('imgs/leftPage.png');
+      background-size: 101% 102%;
+      background-position: -2px -8px;
+      background-repeat: no-repeat;
+    }
+
+    &.book-page {
       left: 4%;
 
       .author {
         text-align: center;
       }
 
-      #books {
+      .books {
         list-style: none;
-        padding-left: 3%;
+        padding-left: 0px;
 
         li {
           display: flex;
@@ -126,12 +143,19 @@ p {
     }
 
     &.right {
+      background: url('imgs/rightPage.png');
+      background-size: 101% 102%;
+      background-position: -2px -8px;
+      background-repeat: no-repeat;
+    }
+
+    &.quote-page {
       right: 4%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
 
-      #quote {
+      .quote {
         font-family: 'Bad Script', cursive;
         text-align: center;
         margin: 0px 2.5%;
@@ -149,7 +173,7 @@ p {
         }
       }
 
-      #book-name {
+      .book-name {
         text-align: center;
         font-style: italic;
 
@@ -180,35 +204,35 @@ p {
             font-size: 1em;
           }
         }
-
-        .button {
-          border: 0px;
-          cursor: pointer;
-          outline: none;
-
-          background-color: rgb(225,157,60);
-          border-bottom: 0.1em solid rgb(177,106,2);
-          text-shadow: 0px 0.1em rgb(177,106,2);
-
-          transition: all 0.1s;
-          -webkit-transition: all 0.1s;
-
-          position: relative;
-          padding: 0.3em 0.8em;
-          float: left;
-          border-radius: 0.3em;
-          font-family: 'Harry Potter', sans-serif;
-          font-size: 2em;
-          color: white;
-          text-decoration: none;  
-
-          &:active {
-            transform: translate(0px, 0.1em);
-            -webkit-transform: translate(0px, 0.1em);
-            border-bottom-width: 1px;
-          }
-        }
       }
     }
+  }
+}
+
+.button {
+  border: 0px;
+  cursor: pointer;
+  outline: none;
+
+  background-color: rgb(225,157,60);
+  border-bottom: 0.1em solid rgb(177,106,2);
+  text-shadow: 0px 0.1em rgb(177,106,2);
+
+  transition: all 0.1s;
+  -webkit-transition: all 0.1s;
+
+  position: relative;
+  display: block;
+  padding: 0.3em 0.8em;
+  border-radius: 0.3em;
+  font-family: 'Harry Potter', sans-serif;
+  font-size: 2em;
+  color: white;
+  text-decoration: none;  
+
+  &:active {
+    transform: translate(0px, 0.1em);
+    -webkit-transform: translate(0px, 0.1em);
+    border-bottom-width: 1px;
   }
 }
