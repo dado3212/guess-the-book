@@ -24,17 +24,21 @@ function resizeBook() {
 
   let newWidth;
   let newHeight;
-  if (window.innerWidth / window.innerHeight > bookRatio) {
-    newWidth = window.innerHeight * percentageOfScreen * bookRatio;
-    newHeight = window.innerHeight * percentageOfScreen;
+
+  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; 
+  var iw = (iOS) ? screen.width : window.innerWidth, ih = (iOS) ? screen.height : window.innerHeight;
+
+  if (iw/ih > bookRatio) {
+    newWidth = ih * percentageOfScreen * bookRatio;
+    newHeight = ih * percentageOfScreen;
   } else {
-    newWidth = window.innerWidth * percentageOfScreen;
-    newHeight = window.innerWidth * percentageOfScreen / bookRatio;
+    newWidth = iw * percentageOfScreen;
+    newHeight = iw * percentageOfScreen / bookRatio;
   }
 
   document.querySelector('#display-book').style.width = newWidth;
   document.querySelector('#display-book').style.height = newHeight;
-  document.querySelector('#display-book').style.fontSize = newWidth * 0.02;
+  document.querySelector('#display-book').style.fontSize = newWidth * .02;
 }
 
 // Gets a new quote
@@ -55,7 +59,7 @@ function getNew(inc = false) {
       document.querySelector('#quote').innerHTML = 
         '<span class="context">"...' + result.context.before + '</span><span class="main">' + result.sentence + '</span><span class="context">' + result.context.after + '..."</span>';
 
-      const books = document.querySelectorAll('.book');
+      const books = document.querySelectorAll('#books li');
       for (var i = 0; i < books.length; i++) {
         books[i].classList.remove('correct');
         books[i].classList.remove('incorrect');
@@ -79,12 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   resizeBook();
 
-  const books = document.querySelectorAll('.book');
+  const books = document.querySelectorAll('#books li');
   for (var i = 0; i < books.length; i++) {
     books[i].addEventListener('click', function(e) {
       if (!chosen) {
         // Remove 'selected' class from all books
-        const allBooks = document.querySelectorAll('.book');
+        const allBooks = document.querySelectorAll('#books li');
         for (var j = 0; j < allBooks.length; j++) {
           allBooks[j].classList.remove('selected');
         }
@@ -101,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
           this.classList.add('correct');
           correct += 1;
         } else {
-          document.querySelector('.book[data-book="' + book + '"]').classList.add('incorrect');
+          document.querySelector('#books li[data-book="' + book + '"]').classList.add('incorrect');
         }
         total += 1;
 

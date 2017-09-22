@@ -12,7 +12,7 @@
 <html lang="en" <?php if ($is_safari) { echo 'class="safari"'; } ?>>
   <head>
     <?php if ($is_mobile) { ?>
-      <meta name="viewport" content="width=400">
+      <meta name="viewport" content="width=370">
     <?php } ?>
 
     <!-- Meta tags -->
@@ -61,6 +61,9 @@
   <body>
     <h1>Harry Potter</h1>
     <h2>Guess The Book</h2>
+    <p>
+      It's pretty straight forward! This will automatically generate a quote from one of the seven Harry Potter novels. You have to guess which one it comes from.
+    </p>
     <div id="display-book">
       <!--
         Source: https://dougitdesign.deviantart.com/art/open-book-template-PSD-198829525
@@ -72,18 +75,36 @@
         <div class="author">
           J.K. Rowling
         </div>
-        <div id="books">
-          <?php
-            for ($i = 1; $i <= 7; $i++) {
-              echo "
-                <div class='book' data-book='$i'>
-                  <div class='spine'><img src='./assets/imgs/book_$i.jpg'></div>
-                  <img src='./assets/imgs/book_$i.jpg'>
-                </div>
-              ";
-            }
-          ?>
-        </div>
+        <ul id="books">
+          <li data-book=1>
+            <img src='./assets/imgs/book_1.jpg'>
+            <span>Harry Potter and the Sorceror's Stone</span>
+          </li>
+          <li data-book=2>
+            <img src='./assets/imgs/book_2.jpg'>
+            <span>Harry Potter and the Chamber of Secrets</span>
+          </li>
+          <li data-book=3>
+            <img src='./assets/imgs/book_3.jpg'>
+            <span>Harry Potter and the Prisoner of Azkaban</span>
+          </li>
+          <li data-book=4>
+            <img src='./assets/imgs/book_4.jpg'>
+            <span>Harry Potter and the Goblet of Fire</span>
+          </li>
+          <li data-book=5>
+            <img src='./assets/imgs/book_5.jpg'>
+            <span>Harry Potter and the Order of the Phoenix</span>
+          </li>
+          <li data-book=6>
+            <img src='./assets/imgs/book_6.jpg'>
+            <span>Harry Potter and the Half Blood Prince</span>
+          </li>
+          <li data-book=7>
+            <img src='./assets/imgs/book_7.jpg'>
+            <span>Harry Potter and the Deathly Hallows</span>
+          </li>
+        </ul>
       </div>
       <div class="page right">
         <div id="book-name">
