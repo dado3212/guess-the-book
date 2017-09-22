@@ -1,20 +1,16 @@
 var book = 0;
+var correctQuotes = 0, totalQuotes = 0;
 
-var correct = 0;
-var total = 0;
-
-var chosen = false;
-
-var toDelete;
+var bookAlreadyChosen = false;
 
 var names = {
-  1: "Harry Potter and the Sorcerer's Stone",
-  2: "Harry Potter and the Chamber of Secrets",
-  3: "Harry Potter and the Prisoner of Azkaban",
-  4: "Harry Potter and the Goblet of Fire",
-  5: "Harry Potter and the Order of the Phoenix",
-  6: "Harry Potter and the Half-Blood Prince",
-  7: "Harry Potter and the Deathly Hallows",
+  1: 'Harry Potter and the Sorcerer\'s Stone',
+  2: 'Harry Potter and the Chamber of Secrets',
+  3: 'Harry Potter and the Prisoner of Azkaban',
+  4: 'Harry Potter and the Goblet of Fire',
+  5: 'Harry Potter and the Order of the Phoenix',
+  6: 'Harry Potter and the Half-Blood Prince',
+  7: 'Harry Potter and the Deathly Hallows',
 };
 
 // Resize
@@ -42,7 +38,7 @@ function resizeBook() {
   document.querySelector('#display-book').style.height = newHeight;
   document.querySelector('#display-book').style.fontSize = newWidth * .02;
 
-  if ($('#flippable')) {
+  if ($('#flippable').turn('is')) {
     $('#flippable').turn("size", newWidth * .9, newHeight * .93);
   }
 }
@@ -94,12 +90,12 @@ function quotePage() {
     '<div class="wrapper">' +
     '  <div class="correct">' +
     '    <h3>Correct</h3>' +
-    '    <div>0</div>' +
+    '    <div>' + correctQuotes + '</div>' +
     '  </div>' +
     '  <button class="button" onclick="getNew()">New Quote</button>' +
     '  <div class="total">' +
     '    <h3>Total</h3>' +
-    '    <div>0</div>' +
+    '    <div>' + totalQuotes + '</div>' +
     '  </div>' +
     '</div>' +
   '</div>');
@@ -145,18 +141,18 @@ function getNew(firstRun = false) {
 
     $('.book-name').last().html(names[book]);
 
-    if (!firstRun && !chosen) {
-      total += 1;
-      $('.wrapper .correct div').last().html(correct);
-      $('.wrapper .total div').last().html(total);
+    if (!firstRun && !bookAlreadyChosen) {
+      totalQuotes += 1;
+      $('.wrapper .correct div').html(correctQuotes);
+      $('.wrapper .total div').html(totalQuotes);
     }
-    chosen = false;
+    bookAlreadyChosen = false;
   });
 }
 
 function initializeBookListeners() {
   $('.books li').off('click', '**').on('click', function(e) {
-    if (!chosen) {
+    if (!bookAlreadyChosen) {
       // Remove 'selected' class from all books
       $('.books li').removeClass('selected');
 
@@ -170,16 +166,16 @@ function initializeBookListeners() {
 
       if (book_chosen == book) {
         $(this).addClass('correct');
-        correct += 1;
+        correctQuotes += 1;
       } else {
         $('.books li[data-book="' + book + '"]').addClass('incorrect');
       }
-      total += 1;
+      totalQuotes += 1;
 
-      $('.wrapper .correct div').html(correct);
-      $('.wrapper .total div').html(total);
+      $('.wrapper .correct div').html(correctQuotes);
+      $('.wrapper .total div').html(totalQuotes);
     }
-    chosen = true;
+    bookAlreadyChosen = true;
   });
 }
 
