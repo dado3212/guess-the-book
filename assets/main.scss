@@ -38,7 +38,7 @@ p {
   width: 80%;
   padding: 0px 20px;
   text-align: center;
-  margin: 20px auto;
+  margin: 8% auto;
 }
 
 #display-book {
@@ -108,11 +108,13 @@ p {
 
       .author {
         text-align: center;
+        margin-top: 1%;
       }
 
       .books {
         list-style: none;
         padding-left: 0px;
+        margin-top: 2%;
 
         li {
           display: flex;
@@ -166,8 +168,8 @@ p {
 
     &.right {
       background: url('imgs/rightPage.png');
-      background-size: 101% 102%;
-      background-position: -2px -8px;
+      background-size: 101% 101%;
+      background-position: -2px -3px;
       background-repeat: no-repeat;
     }
 
@@ -200,6 +202,7 @@ p {
       .book-name {
         text-align: center;
         font-style: italic;
+        margin-top: 1%;
 
         opacity: 0;
         transition: all 0s ease;
@@ -247,6 +250,7 @@ p {
 
   position: relative;
   display: block;
+  width: 6em;
   padding: 0.3em 0.8em;
   border-radius: 0.3em;
   font-family: 'Harry Potter', sans-serif;
