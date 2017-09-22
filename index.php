@@ -64,11 +64,26 @@
         Source: https://dougitdesign.deviantart.com/art/open-book-template-PSD-198829525
       -->
       <div class="background">
-        <img src="./assets/imgs/book.png" alt="book">
+        <img src="./assets/imgs/book.png" alt="book" class="no-select">
       </div>
       <div id="flipbook">
-        <div class="page right">
-          What are you doing?
+        <div class="page right share-page">
+          <p>
+            <h1>Credits</h1>
+            Made by Alex Beals
+          </p>
+          <p>
+            Thanks to J.K. Rowling for creating the magical world of Harry Potter.  All excerpts from the books are the right of J.K. Rowling.
+          </p>
+          <p>
+            Thanks to Emmanuel Garcia for <a href="http://www.turnjs.com/">turn.js</a>, which powers the page flip animations.
+          </p>
+          <p>
+            Thanks to Dougit Design for <a href="https://dougitdesign.deviantart.com/art/open-book-template-PSD-198829525">the book asset</a> which I used.
+          </p>
+          <p>
+            Check out <a href="https://github.com/dado3212/guess-the-book">the source code</a> on my GitHub.
+          </p>
         </div>
         <div class="page left"></div>
         <div class="page right intro-page">

@@ -92,7 +92,7 @@ function choicePage() {
 // Generates the 'quote' page in HTML for turn.js compatibility
 function quotePage() {
   return $('<div class="page right quote-page">' +
-    '<div class="book-name">' +
+    '<div class="book-name no-select">' +
     '</div>' +
     '<div class="quote">' +
     '</div>' +
@@ -149,9 +149,9 @@ function getNew(firstRun = false) {
 
     // Insert the hidden context and actual quote
     $('.quote').last().html(
-      '<span class="context">"...' + result.context.before + '</span>' + 
+      '<span class="context no-select">"...' + result.context.before + '</span>' + 
       '<span class="main">' + result.sentence + '</span>' + 
-      '<span class="context">' + result.context.after + '..."</span>'
+      '<span class="context no-select">' + result.context.after + '..."</span>'
     );
 
     $('.book-name').last().html(bookNames[correctBookNum]);
