@@ -1,9 +1,16 @@
-var book = 0;
+// Important variables
+var correctBookNum = 0;
 var correctQuotes = 0, totalQuotes = 0;
-
 var bookAlreadyChosen = false;
 
-var names = {
+// Constants
+const bookRatio = 1.364; // 1001 width, 734 usable height
+const percentageOfScreen = 95;
+const fontSizePercentage = 2;
+const flipbookWidthPercentage = 90;
+const flipbookHeightPercentage = 93;
+
+const bookNames = {
   1: 'Harry Potter and the Sorcerer\'s Stone',
   2: 'Harry Potter and the Chamber of Secrets',
   3: 'Harry Potter and the Prisoner of Azkaban',
@@ -13,36 +20,37 @@ var names = {
   7: 'Harry Potter and the Deathly Hallows',
 };
 
-// Resize
+// Handle window resize
 window.addEventListener("resize", resizeBook);
 
 function resizeBook() {
-  const bookRatio = 1.364; // 1001 width, 734 usable height
-  const percentageOfScreen = 0.95;
-
   let newWidth;
   let newHeight;
 
+  // Get the width and height
   var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; 
   var iw = (iOS) ? screen.width : window.innerWidth, ih = (iOS) ? screen.height : window.innerHeight;
 
-  if (iw/ih > bookRatio) {
-    newWidth = ih * percentageOfScreen * bookRatio;
-    newHeight = ih * percentageOfScreen;
-  } else {
-    newWidth = iw * percentageOfScreen;
-    newHeight = iw * percentageOfScreen / bookRatio;
+  // Compare the window ratio to the book ratio
+  if (iw/ih > bookRatio) { // Shorter and fatter, limit by height
+    newWidth = ih * percentageOfScreen / 100 * bookRatio;
+    newHeight = ih * percentageOfScreen / 100;
+  } else { // Taller and thinner, limit by width
+    newWidth = iw * percentageOfScreen / 100;
+    newHeight = iw * percentageOfScreen / 100 / bookRatio;
   }
 
   document.querySelector('#display-book').style.width = newWidth;
   document.querySelector('#display-book').style.height = newHeight;
-  document.querySelector('#display-book').style.fontSize = newWidth * .02;
+  document.querySelector('#display-book').style.fontSize = newWidth * fontSizePercentage / 100;
 
-  if ($('#flippable').turn('is')) {
-    $('#flippable').turn("size", newWidth * .9, newHeight * .93);
+  // Resize book according to the instantiation percentages
+  if ($('#flipbook').turn('is')) {
+    $('#flipbook').turn('size', newWidth * flipbookWidthPercentage / 100, newHeight * flipbookHeightPercentage / 100);
   }
 }
 
+// Generates the 'choice' page in HTML for turn.js compatibility
 function choicePage() {
   return $("<div class='page left book-page'>" +
   "  <div class='author'>" +
@@ -81,6 +89,7 @@ function choicePage() {
   "</div>");
 }
 
+// Generates the 'quote' page in HTML for turn.js compatibility
 function quotePage() {
   return $('<div class="page right quote-page">' +
     '<div class="book-name">' +
@@ -103,53 +112,59 @@ function quotePage() {
 
 // Gets a new quote
 function getNew(firstRun = false) {
+  // Downloads from my own page
   $.getJSON('./sample.php', function(result) {
-    book = parseInt(result.book.substr(5));
+    // Extracts the book it's from for correct answer comparing
+    correctBookNum = parseInt(result.book.substr(5));
 
-    if ($('#flippable').turn('pages') > 5) {
-      $("#flippable")
+    // Remove excess duplicate pages if spamming buttons
+    if ($('#flipbook').turn('pages') > 5) {
+      $('#flipbook')
         .turn('removePage', 5)
         .turn('removePage', 4);
     }
 
     if (!firstRun) {
       // Copy the page
-      $("#flippable")
-        .turn("addPage", choicePage())
-        .turn("addPage", quotePage())
+      $('#flipbook')
+        .turn('addPage', choicePage())
+        .turn('addPage', quotePage())
         .turn('next');
 
       initializeBookListeners();
 
+      // Remove the old pages in a second
       setTimeout(function() {
-        if ($('#flippable').turn('pages') > 5) {
-          $("#flippable")
+        if ($('#flipbook').turn('pages') > 5) {
+          $('#flipbook')
             .turn('removePage', 5)
             .turn('removePage', 4);
         }
       }, 1000);
     }
 
+    // Hide all relevant information
     $('.quote').last().removeClass('visible');
     $('.book-name').last().removeClass('visible');
 
+    // Insert the hidden context and actual quote
     $('.quote').last().html(
       '<span class="context">"...' + result.context.before + '</span>' + 
       '<span class="main">' + result.sentence + '</span>' + 
       '<span class="context">' + result.context.after + '..."</span>'
     );
 
-    $('.book-name').last().html(names[book]);
+    $('.book-name').last().html(bookNames[correctBookNum]);
 
-    if (!firstRun && !bookAlreadyChosen) {
+    if (!bookAlreadyChosen && !firstRun) {
       totalQuotes += 1;
-      $('.wrapper .correct div').html(correctQuotes);
       $('.wrapper .total div').html(totalQuotes);
     }
     bookAlreadyChosen = false;
   });
 }
 
+// Add listeners to all of the books on the left page
 function initializeBookListeners() {
   $('.books li').off('click', '**').on('click', function(e) {
     if (!bookAlreadyChosen) {
@@ -164,11 +179,13 @@ function initializeBookListeners() {
 
       const book_chosen = this.getAttribute('data-book');
 
-      if (book_chosen == book) {
+      // Correct
+      if (book_chosen == correctBookNum) {
         $(this).addClass('correct');
         correctQuotes += 1;
+      // Incorrect
       } else {
-        $('.books li[data-book="' + book + '"]').addClass('incorrect');
+        $('.books li[data-book="' + correctBookNum + '"]').addClass('incorrect');
       }
       totalQuotes += 1;
 
@@ -179,17 +196,19 @@ function initializeBookListeners() {
   });
 }
 
+// Instantiate the flip book
 $(document).ready(function() {
-  $('#flippable').turn({
+  $('#flipbook').turn({
     page: 2,
-    width: '90%',
-    height: '93%',
-  }); //.turn("disable", true);
+    width: flipbookWidthPercentage + '%',
+    height: flipbookHeightPercentage + '%',
+  }); //.turn('disable', true);
 
+  // The 'Get Started' button
   $('#begin').on('click', function() {
-    $("#flippable")
-      .turn("addPage", choicePage())
-      .turn("addPage", quotePage())
+    $('#flipbook')
+      .turn('addPage', choicePage())
+      .turn('addPage', quotePage())
       .turn('next');
 
     getNew(true);
@@ -198,6 +217,7 @@ $(document).ready(function() {
   });
 });
 
+// Resize once on load
 document.addEventListener('DOMContentLoaded', function() { 
   resizeBook();
 }, false);

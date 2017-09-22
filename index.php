@@ -66,7 +66,7 @@
       <div class="background">
         <img src="./assets/imgs/book.png" alt="book">
       </div>
-      <div id="flippable">
+      <div id="flipbook">
         <div class="page right">
           What are you doing?
         </div>
