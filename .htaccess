@@ -1,0 +1,24 @@
+<IfModule mod_headers.c>
+    Header set Connection keep-alive
+
+    # 1 MONTH FOR IMAGES
+    <filesMatch "\.(ico|jpg|jpeg|png)$"> 
+        Header set Cache-Control "max-age=2628000, public"
+    </filesMatch>
+
+    # 1 WEEKS FOR CSS/JS
+    <filesMatch "\.(css|js)$">
+        Header set Cache-Control "max-age=604800, public, must-revalidate"
+        #Header set Cache-Control "max-age=0, public, must-revalidate"
+    </filesMatch>
+</IfModule>
+
+## Rewrite ##
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule ^(\d+)$ index.php?score=$1 [QSA,L]
+</IfModule>
