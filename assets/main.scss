@@ -114,7 +114,7 @@ p {
       .books {
         list-style: none;
         padding-left: 0px;
-        margin-top: 2%;
+        margin: 2% 4% 0% 2%;
 
         li {
           display: flex;
@@ -158,7 +158,7 @@ p {
           }
 
           img {
-            max-width: 13%;
+            max-width: 2.85em;
             box-shadow: 1px 3px 3px 3px rgba(0, 0, 0, 0.1);
             transition: all 0.2s ease;
           }
