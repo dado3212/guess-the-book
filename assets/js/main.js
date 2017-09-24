@@ -112,6 +112,14 @@ function quotePage() {
 
 // Gets a new quote
 function getNew(firstRun = false) {
+  // Reset the count if it's the new run
+  if (firstRun) {
+    correctQuotes = 0;
+    totalQuotes = 0;
+    $('.wrapper .correct div').html(correctQuotes);
+    $('.wrapper .total div').html(totalQuotes);
+  }
+
   // Downloads from my own page
   $.getJSON('./sample.php', function(result) {
     // Extracts the book it's from for correct answer comparing

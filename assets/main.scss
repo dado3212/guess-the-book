@@ -92,7 +92,8 @@ p {
       justify-content: center;
 
       button {
-        margin: 0 auto;
+        margin-right: auto;
+        margin-left: auto;
       }
     }
 
@@ -236,6 +237,10 @@ p {
       }
     }
   }
+}
+
+.button-wrapper {
+  height: 11%;
 }
 
 .button {
