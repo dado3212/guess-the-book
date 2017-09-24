@@ -1,5 +1,5 @@
 <?php
-  $book_choices = array_diff(scandir("./harry_potter"), array('..', '.'));
+  $book_choices = array_diff(scandir("./harry_potter"), array('..', '.', '.htaccess'));
 
   shuffle($book_choices);
 
