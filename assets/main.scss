@@ -183,6 +183,8 @@ p {
         font-family: 'Bad Script', cursive;
         text-align: center;
         margin: 0px 2.5%;
+        max-height: 80%;
+        overflow: hidden;
 
         .context {
           filter: blur(4px);
