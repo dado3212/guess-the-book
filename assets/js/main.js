@@ -59,7 +59,7 @@ function choicePage() {
   "  <ul class='books'>" +
   "    <li data-book=1>" +
   "      <img src='./assets/imgs/book_1.jpg'>" +
-  "      <span>Harry Potter and the Sorceror's Stone</span>" +
+  "      <span>Harry Potter and the Sorcerer's Stone</span>" +
   "    </li>" +
   "    <li data-book=2>" +
   "      <img src='./assets/imgs/book_2.jpg'>" +
