@@ -87,12 +87,16 @@
         </div>
         <div class="page left"></div>
         <div class="page right intro-page">
-          <h1>Harry Potter</h1>
-          <h2>Guess The Book</h2>
-          <p>
-            It's pretty straight forward! This will automatically generate a quote from one of the seven Harry Potter novels. You have to guess which one it comes from.
-          </p>
-          <button class="button" id="begin">Get Started</button>
+          <div>
+            <h1>Harry Potter</h1>
+            <h2>Guess The Book</h2>
+            <p>
+              It's pretty straight forward! This will automatically generate a quote from one of the seven Harry Potter novels. You have to guess which one it comes from.
+            </p>
+            <div class="button-wrapper">
+              <button class="button" id="begin">Get Started</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

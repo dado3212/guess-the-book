@@ -92,7 +92,8 @@ p {
       justify-content: center;
 
       button {
-        margin: 0 auto;
+        margin-right: auto;
+        margin-left: auto;
       }
     }
 
@@ -183,6 +184,8 @@ p {
         font-family: 'Bad Script', cursive;
         text-align: center;
         margin: 0px 2.5%;
+        max-height: 80%;
+        overflow: hidden;
 
         .context {
           filter: blur(4px);
@@ -234,6 +237,10 @@ p {
       }
     }
   }
+}
+
+.button-wrapper {
+  height: 11%;
 }
 
 .button {
