@@ -143,6 +143,9 @@ function getNew(firstRun = false) {
       }, 1000);
     }
 
+    // Disable page turning until chosen
+    $('#flipbook').turn('disable', true);
+
     // Hide all relevant information
     $('.quote').last().removeClass('visible');
     $('.book-name').last().removeClass('visible');
@@ -191,6 +194,9 @@ function initializeBookListeners() {
 
       $('.wrapper .correct div').html(correctQuotes);
       $('.wrapper .total div').html(totalQuotes);
+
+      // Enable turning
+      $('#flipbook').turn('disable', false);
     }
     bookAlreadyChosen = true;
   });
