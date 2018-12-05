@@ -58,6 +58,8 @@
     $string = preg_replace( "/\\x{201d}/u", '"', $string ); 
     $string = preg_replace( "/\\x{2014}/u", "-", $string );
     $string = preg_replace( "/\\x{201c}/u", '"', $string );
+    $string = preg_replace( "/\\\\\"/u", '"', $string );
+    $string = preg_replace( "/\\\\ /u", ' ', $string );
 
     return $string;
   }
